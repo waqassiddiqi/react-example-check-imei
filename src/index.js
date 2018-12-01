@@ -10,17 +10,22 @@ const FormItem = Form.Item;
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { imei: "", input: "" };
+    this.state = { imei: "", input: "", isLoading: false };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handler = this.handler.bind(this);
   }
 
   doLookup = () => {
-    this.setState(state => ({ imei: this.state.input }));
+    this.setState({ imei: this.state.input });
   };
 
   handleChange(event) {
     this.setState({ input: event.target.value });
+  }
+
+  handler(isLoading) {
+    this.setState({ isLoading: isLoading });
   }
 
   render() {
@@ -42,6 +47,7 @@ class App extends React.Component {
                 icon="search"
                 type="primary"
                 size="large"
+                loading={this.state.isLoading}
               >
                 Lookup
               </Button>
@@ -49,7 +55,7 @@ class App extends React.Component {
           </Form>
         </div>
         <div>
-          <Device imei={this.state.imei} />
+          <Device imei={this.state.imei} action={this.handler} />
         </div>
       </div>
     );
